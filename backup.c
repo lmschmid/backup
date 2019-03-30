@@ -164,7 +164,7 @@ void updateFile(char *localFile, char *usbFile) {
 
     // printf("updating file: %s\n", command); // DEBUGG
     
-    if (system(command) < 0) { // TODO change to command
+    if (system(command) < 0) {
         fprintf(stderr, "system call failed in updateFile\n");
         exit(-1);
     }
