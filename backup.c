@@ -46,6 +46,8 @@ void processPaths(pathNode *pathList) {
     }
 
     for (i = 0; i < numThreads; i++) { // wait for all threads to complete
+        free(tArgs[i].localPath);
+        free(tArgs[i].usbPath);
         pthread_join(threadIds[i], NULL);
     }
 }
