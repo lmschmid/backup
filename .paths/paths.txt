@@ -1,0 +1,6 @@
+Documents/CalPolySchoolwork/
+Documents/Career/
+Documents/Personal/
+Music/iTunes/Album Artwork/
+Music/iTunes/iTunes Media/Music/
+Programming/
