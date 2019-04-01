@@ -6,12 +6,14 @@
     Notes: 
         - Assumes dirs branch from starting paths configurable from backup.h
     ***************************************************************************
-*/
+*/ 
 int main(int argc, char const *argv[]) {
     pathNode *pathList = NULL;
     clock_t t;
 
     fillPathsList(&pathList);
+    checkBaseDirs(pathList);
+
     t = clock();
     processPaths(pathList);
     t = clock() - t;
@@ -47,6 +49,7 @@ void processPaths(pathNode *pathList) {
 
     for (i = 0; i < numThreads; i++) { // wait for all threads to complete
         pthread_join(threadIds[i], NULL);
+        // printf("thread %d joined\n", i); // DEBUGG
 		free(tArgs[i].localPath);
 		free(tArgs[i].usbPath);
     }
@@ -73,7 +76,7 @@ void *thrUpdate(void *args) {
 */
 void update(char *local, char *usb) {
     struct stat localStat, usbStat;
-    char *gitPath = NULL, *localPath = NULL, *usbPath = NULL;
+    char *gitPath = NULL, *localPath = NULL, *usbPath = NULL, *dirCom = NULL;
 
     // printf("checking to update: %s & %s\n", localPath, usbPath); // DEBUG
 
@@ -116,6 +119,9 @@ void update(char *local, char *usb) {
         //   usbPath, localStat.st_mtime, usbStat.st_mtime);
         updateFile(localPath, usbPath);
     }
+
+    if (dirCom)
+        free(dirCom);
 
     free(usbPath);
     free(localPath);
@@ -169,7 +175,7 @@ void updateFile(char *localFile, char *usbFile) {
         exit(-1);
     }
 
-    printf("*** Copied %s to usb. *** \n\n", localFile);
+    // printf("*** Copied %s to usb. *** \n\n", localFile);
 
     free(command);
 }
@@ -209,4 +215,31 @@ void fillPathsList(pathNode ** pathList) {
     if (path)
         free(path);
     fclose(pathsFile);
+}
+
+/*  ***************************************************************************
+    Creates the base dir of the path on usb if it does not exist
+    - solves problem of multi-level dirs in .paths/paths.txt where
+        intermediates do not exist
+    ***************************************************************************
+*/
+void checkBaseDirs(pathNode * pathList) {
+    struct stat pathStat;
+    char *dirCommand = NULL;
+    pathNode *current = pathList;
+    
+    while (current) {
+        if (stat(current->usbPath, &pathStat) != 0) {
+            asprintf(&dirCommand, "mkdir -p \"%s\"", current->usbPath);
+            if (system(dirCommand) < 0) {
+                fprintf(stderr, "system call failed in checkBaseDirs\n");
+                exit(-1);
+            }
+        }
+
+        current = current->next;
+    }
+
+    if (dirCommand)
+        free(dirCommand);
 }

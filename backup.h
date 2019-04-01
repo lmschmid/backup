@@ -19,6 +19,7 @@ typedef struct threadArgs {
 } threadArgs;
 
 void fillPathsList(pathNode ** pathList);
+void checkBaseDirs(pathNode * pathList);
 void processPaths(pathNode *pathList);
 void update(char *localPath, char *usbPath);
 void *thrUpdate(void *args);

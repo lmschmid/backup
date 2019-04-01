@@ -3,12 +3,13 @@
 
 #define LENIANCY 2
 
-static const char * PATH_FILE = "./.paths/paths.txt";
-static const char * LOCAL_START = "/Users/Liam/";
-static const char * USB_START = "/Volumes/USB30FD/";
+#define PATH_FILE "./.paths/paths.txt"
+#define LOCAL_START "/Users/Liam/"
+#define USB_START "/Users/Liam/testMulti/"
+//#define USB_START "/Volumes/USB30FD/"
 
-static const char * T_PATH_FILE = "./.paths/testpaths.txt";
-static const char * T_LOCAL_START = "/Users/Liam/Programming/backup/test/testlocal/";
-static const char * T_USB_START = "/Users/Liam/Programming/backup/test/testusb/";
+#define T_PATH_FILE "./.paths/testpaths.txt"
+#define T_LOCAL_START "/Users/Liam/Programming/backup/test/testlocal/"
+#define T_USB_START "/Users/Liam/Programming/backup/test/testusb/"
 
 #endif
