@@ -11,6 +11,7 @@
 #include <dirent.h> 
 
 #include "macros.h"
+#include "options.h"
 #include "linkedlist.h"
 
 typedef struct threadArgs {

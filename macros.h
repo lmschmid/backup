@@ -5,8 +5,7 @@
 
 #define PATH_FILE "./.paths/paths.txt"
 #define LOCAL_START "/Users/Liam/"
-#define USB_START "/Users/Liam/testMulti/"
-//#define USB_START "/Volumes/USB30FD/"
+#define USB_START "/Volumes/USB30FD/testMulti/"
 
 #define T_PATH_FILE "./.paths/testpaths.txt"
 #define T_LOCAL_START "/Users/Liam/Programming/backup/test/testlocal/"

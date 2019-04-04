@@ -11,6 +11,8 @@ int main(int argc, char const *argv[]) {
     pathNode *pathList = NULL;
     clock_t t;
 
+    parseOptions(argc, argv);
+
     fillPathsList(&pathList);
     checkBaseDirs(pathList);
 
