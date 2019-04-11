@@ -45,7 +45,7 @@ echo:
 backup: backup.o  $(HFILES) $(OBJS)
 	@echo "-------------------------------"
 	@echo "*** Building $@"
-	$(CC) $(CFLAGS) -o $@ backup.o $(OBJS) 
+	$(CC) $(CFLAGS) -lpthread -o $@ backup.o $(OBJS) 
 	@echo "-------------------------------"
 
 # clean .o
