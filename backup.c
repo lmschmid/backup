@@ -94,6 +94,8 @@ void update(char *local, char *usb) {
     asprintf(&gitPath, "%s/.git", localPath);
     if (access(gitPath, F_OK) == 0) { // if directory contains .git, return
         free(gitPath);
+        free(localPath);
+        free(usbPath);
         return;
     }
 
@@ -102,6 +104,8 @@ void update(char *local, char *usb) {
             mkdir(usbPath, 0700);
         } else {
             updateFile(localPath, usbPath);
+            free(localPath);
+            free(usbPath);
             free(gitPath);
             return;
         }
@@ -152,12 +156,15 @@ void updateDirectory(char *localDir, char *usbDir) {
         asprintf(&usbPath, "%s%s", usbDir, dirEntry->d_name);
         
         update(localPath, usbPath);
+        free(localPath);
+        free(usbPath);
+        localPath = usbPath = NULL;
     }
     
-    if (localPath)
-        free(localPath);
-    if (usbPath)
-        free(usbPath);
+    // if (localPath)
+    //     free(localPath);
+    // if (usbPath)
+    //     free(usbPath);
     closedir(dirPointer); 
 }
 
