@@ -1,11 +1,11 @@
 #include "backup.h"
 
-/*  ***************************************************************************
+/*  **************************************************************************
     Updates the usb files which are outdated.
 
     Notes: 
         - Assumes dirs branch from starting paths configurable from backup.h
-    ***************************************************************************
+    **************************************************************************
 */ 
 int main(int argc, char const *argv[]) {
     pathNode *pathList = NULL;
@@ -24,10 +24,10 @@ int main(int argc, char const *argv[]) {
     return 0;
 }
 
-/*  ***************************************************************************
+/*  **************************************************************************
     Loops through the paths in pathList, and spawns a unique thread to update
     each path
-    ***************************************************************************
+    **************************************************************************
 */
 void processPaths(pathNode *pathList) {
     pathNode *current = pathList;
@@ -57,9 +57,9 @@ void processPaths(pathNode *pathList) {
     }
 }
 
-/*  ***************************************************************************
+/*  **************************************************************************
     Intermediate function to update for use with multithreading
-    ***************************************************************************
+    **************************************************************************
 */
 void *thrUpdate(void *args) {
     threadArgs *tArgs = (threadArgs *)args;
@@ -71,10 +71,10 @@ void *thrUpdate(void *args) {
 }
 
 
-/*  ***************************************************************************
+/*  **************************************************************************
     Updates the given path, regardless of file or dir
     - used to eliminate duplicate code of stat calls and file/dir check
-    ***************************************************************************
+    **************************************************************************
 */
 void update(char *local, char *usb) {
     struct stat localStat, usbStat;
@@ -134,9 +134,9 @@ void update(char *local, char *usb) {
     free(gitPath);
 }
 
-/*  ***************************************************************************
+/*  **************************************************************************
     Updates files in a given directory if the access date is more recent
-    ***************************************************************************
+    **************************************************************************
 */
 void updateDirectory(char *localDir, char *usbDir) {
     struct dirent *dirEntry = NULL;
@@ -168,9 +168,9 @@ void updateDirectory(char *localDir, char *usbDir) {
     closedir(dirPointer); 
 }
 
-/*  ***************************************************************************
+/*  **************************************************************************
     Updates the given file on the usb
-    ***************************************************************************
+    **************************************************************************
 */
 void updateFile(char *localFile, char *usbFile) {
     char *command = NULL;
@@ -189,19 +189,19 @@ void updateFile(char *localFile, char *usbFile) {
     free(command);
 }
 
-/*  ***************************************************************************
+/*  **************************************************************************
     Compares the given stats for if local is more recently updated
     - Return:   0 for equal
                 -1 for unequal
-    ***************************************************************************
+    **************************************************************************
 */
 int checkAccessDate(struct stat *localStat, struct stat *usbStat) {
     return ((*localStat).st_mtime > (*usbStat).st_mtime+LENIANCY) ? -1 : 0;
 }
 
-/*  ***************************************************************************
+/*  **************************************************************************
     Fills a linked list with paths located in PATH_FILE for later processing
-    ***************************************************************************
+    **************************************************************************
 */
 void fillPathsList(pathNode ** pathList) {
     FILE * pathsFile = NULL;
@@ -226,11 +226,11 @@ void fillPathsList(pathNode ** pathList) {
     fclose(pathsFile);
 }
 
-/*  ***************************************************************************
+/*  **************************************************************************
     Creates the base dir of the path on usb if it does not exist
     - solves problem of multi-level dirs in .paths/paths.txt where
         intermediates do not exist
-    ***************************************************************************
+    **************************************************************************
 */
 void checkBaseDirs(pathNode * pathList) {
     struct stat pathStat;

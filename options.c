@@ -1,9 +1,9 @@
 #include "options.h"
 
 
-/*  ***************************************************************************
+/*  **************************************************************************
     Scans command line arguments provided and performs actions as needed
-    ***************************************************************************
+    **************************************************************************
 */
 void parseOptions(int argc, char const *argv[]) {
     int i;
@@ -24,10 +24,10 @@ void parseOptions(int argc, char const *argv[]) {
     }
 }
 
-/*  ***************************************************************************
+/*  **************************************************************************
     Adds path to the paths file specified in macros.h
     - Notes: will make sure the path is a valid directory on the local machine
-    ***************************************************************************
+    **************************************************************************
 */
 void addPathToTracked(char const *path) {
     FILE *pathFile = NULL;
@@ -45,9 +45,9 @@ void addPathToTracked(char const *path) {
     fclose(pathFile);
 }
 
-/*  ***************************************************************************
+/*  **************************************************************************
     Removes path from paths file specified in macros.h
-    ***************************************************************************
+    **************************************************************************
 */
 void removePathFromTracked(char const *path) {
     char * filePath = NULL;
@@ -56,7 +56,7 @@ void removePathFromTracked(char const *path) {
     FILE *pathFile = fopen(PATH_FILE, "r");
 
     while ((read = getline(&filePath, &len, pathFile)) != -1) {
-        if (filePath[read-1] == '\n') { // last path in file may not have newline
+        if (filePath[read-1] == '\n') {
             filePath[read-1] = '\0';
         }
 
