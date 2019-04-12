@@ -78,7 +78,8 @@ void *thrUpdate(void *args) {
 */
 void update(char *local, char *usb) {
     struct stat localStat, usbStat;
-    char *gitPath = NULL, *localPath = NULL, *usbPath = NULL, *dirCom = NULL;
+    char *gitPath = NULL, *localPath = NULL, *usbPath = NULL, *dirCom = NULL,
+     *temp = NULL;
 
     // printf("checking to update: %s & %s\n", localPath, usbPath); // DEBUG
 
@@ -113,8 +114,12 @@ void update(char *local, char *usb) {
 
     if (S_ISDIR(localStat.st_mode)) {
         if (localPath[strlen(localPath)-1] != '/') {
-            asprintf(&localPath, "%s/", localPath);
-            asprintf(&usbPath, "%s/", usbPath);
+            temp = localPath;
+            asprintf(&localPath, "%s/", temp);
+            free(temp);
+            temp = usbPath;
+            asprintf(&usbPath, "%s/", temp);
+            free(temp);
         }
 
         updateDirectory(localPath, usbPath);
@@ -244,11 +249,11 @@ void checkBaseDirs(pathNode * pathList) {
                 fprintf(stderr, "system call failed in checkBaseDirs\n");
                 exit(-1);
             }
+            free(dirCommand);
+            dirCommand = NULL;
         }
 
         current = current->next;
     }
 
-    if (dirCommand)
-        free(dirCommand);
 }
