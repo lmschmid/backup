@@ -37,26 +37,21 @@ pathNode * addPath(pathNode *head, char *path) {
 }
 
 pathNode * removePath(pathNode *head, char *path) {
-    pathNode *temp, *prev;
+    pathNode *temp = NULL, *prev = NULL;
 
-    if (!head) {
-        return head;
-    }
-
-    if (strcmp(path, head->localPath) == 0) {
-        temp = head->next;
-        freeNode(head);
-        return temp;
-    }
-
-    temp = head->next;
-    prev = head;
+    temp = head;
 
     while (temp) {
         if (strcmp(path, temp->localPath) == 0) {
-            prev->next = temp->next;
-            freeNode(temp);
-            break;
+            if (!prev) {
+                temp = head->next;
+                freeNode(head);
+                return temp;
+            } else {
+                prev->next = temp->next;
+                freeNode(temp);
+                break;
+            }
         }
 
         prev = temp;
